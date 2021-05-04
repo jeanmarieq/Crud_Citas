@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const { Sequelize, DataTypes } = require('sequelize')
 const CitaModel = require('./models/cita')
 
@@ -8,6 +9,8 @@ app.set('view engine', 'ejs')
 const sequelize = new Sequelize ({ dialect: 'sqlite', storage: 'cita-database.db' })
 
 const Citas = CitaModel(sequelize, DataTypes)
+
+// falta llamar a depemdencia CORS
 
 app.use(express.json())
 
