@@ -30,13 +30,12 @@ app.get('/citas/:id', async (req, res) => {
 
 // Criar Cita
 app.post('/citas', async (req, res) => {
-    const novacita = await Citas.create(req.body);
-    /* ({
-        name: req.body.name,
+    const novacita = await Citas.create ({
+        Name: req.body.Name,
         date: req.body.date,
         time: req.body.time,
         description: req.body.description
-    }) */
+    })
    res.json({ novacita });
 })
 
@@ -44,13 +43,12 @@ app.post('/citas', async (req, res) => {
 app.put('/citas/:id', async (req, res) => {
     const citaId = req.params.id
     const lisCitas = await Citas.findByPk(citaId)
-    lisCitas.update(req.body);
-    /* ({
-        name: req.body.name,
+    lisCitas.update ({
+        Name: req.body.Name,
         date: req.body.date,
         time: req.body.time,
         description: req.body.description
-    }) */
+    }) 
     res.send({ lisCitas: lisCitas })
 })
   

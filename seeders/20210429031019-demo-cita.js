@@ -12,21 +12,21 @@ module.exports = {
      * }], {});
     */
      await queryInterface.bulkInsert('Cita', [{
-        name: 'John Doe',
+        Name: 'John Doe',
         date: '10-06-2021',
         time: '08:00',
         description: 'febre',
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
-        name: 'Maria Silva',
+        Name: 'Maria Silva',
         date: '05-08-2021',
         time: '10:00',
         description: 'Dor',
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
-        name: 'Tiago Perez',
+        Name: 'Tiago Perez',
         date: '20-10-2021',
         time: '01:00',
         description: 'alergia',
