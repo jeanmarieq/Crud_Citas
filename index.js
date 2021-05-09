@@ -1,8 +1,12 @@
 const express = require('express')
+/* const { validationResult } = require('express-validator')
+const { check } = require('express-validator'); */
+const bodyParser = require('body-Parser')
 const app = express()
-const cors = require('cors')
-const { Sequelize, DataTypes } = require('sequelize')
+// const cors = require('cors')
+const { Sequelize, DataTypes, Error } = require('sequelize')
 const CitaModel = require('./models/cita')
+
 
 app.set('view engine', 'ejs')
 
@@ -10,9 +14,12 @@ const sequelize = new Sequelize ({ dialect: 'sqlite', storage: 'cita-database.db
 
 const Citas = CitaModel(sequelize, DataTypes)
 
+
+
 // falta llamar a depemdencia CORS
 
-app.use(express.json())
+app.use(express.json());
+
 
 // Mostrar lista de citas
 app.get('/citas', async (req, res) => {
@@ -28,29 +35,77 @@ app.get('/citas/:id', async (req, res) => {
     res.json({ action: 'Mostrar Cita', Citas: cita})
 })
 
-// Criar Cita
-app.post('/citas', async (req, res) => {
-    const novacita = await Citas.create ({
+// Criar Cita FUNCIONA
+/* app.post('/citas', async (req, res) => {
+       const novacita = await Citas.create ({
         Name: req.body.Name,
         date: req.body.date,
         time: req.body.time,
         description: req.body.description
     })
    res.json({ novacita });
-})
+})   */
+// teste Con envio do error 
+app.post('/citas', async (req, res) => {
+    try {
+        const { Name, date, time, description } = req.body;
+        const novacita = await Citas.create ({
+            Name: req.body.Name,
+            date: req.body.date,
+            time: req.body.time,
+            description: req.body.description
+        });
+        return res.status(200).send(novacita)
+    } catch(err) {
+        return res.status(400).send({ error: err});
+    }   
+    
+ //  res.json({ novacita });
+})  
 
-// Atualizar cita
+// prueba con validacion NO FUNCIONA
+/* app.post('/citas', [
+    check('Name').isAlpha({min:3}),
+    // body('date').isDate(),
+    check('description').isAlphanumeric({max:20}),
+], async (req, res) => {
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()) {
+            return res.status(400).send({ mesage: errors})
+        } 
+
+        try {
+            const novacita = await Citas.create({
+                Name: req.body.Name,
+                date: req.body.date,
+                time: req.body.time,
+                description: req.body.description,
+            });
+            return res.status(201).send({message:'Cita cadastrada'});
+        } catch(e) {
+            return res.status(500).send({mesage:'falha ao cadastrar cita'});
+        }
+    res.send({ novacita });
+})  */
+
+// Atualizar cita 
 app.put('/citas/:id', async (req, res) => {
-    const citaId = req.params.id
-    const lisCitas = await Citas.findByPk(citaId)
-    lisCitas.update ({
-        Name: req.body.Name,
-        date: req.body.date,
-        time: req.body.time,
-        description: req.body.description
-    }) 
-    res.send({ lisCitas: lisCitas })
-})
+    try {
+        const citaId = req.params.id
+        const lisCitas = await Citas.findByPk(citaId)
+        lisCitas.update ({
+            Name: req.body.Name,
+            date: req.body.date,
+            time: req.body.time,
+            description: req.body.description
+        });
+        return res.status(200).send(lisCitas)
+    } catch(err) {
+        return res.status(400).send({ error: err});
+    }   
+    // res.send({ lisCitas: lisCitas })
+}) 
   
 // Apagar Cita
 app.delete('/citas/:id', async (req, res) => {

@@ -14,10 +14,47 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Cita.init({
-    Name: DataTypes.STRING,
-    date: DataTypes.INTEGER,
-    time: DataTypes.TIME,
-    description: DataTypes.STRING
+    Name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notEmpty: {
+          msg: "Campo não pode ser vazio"
+        },
+        len:{
+          args: [3, 20],
+          msg: "Nome deve ter entre 3 e 20 caracteres"
+        }
+      }
+    },
+    date: {
+     type: DataTypes.INTEGER,
+     allowNull: false,
+      validate:{
+        notEmpty: {
+          msg: "Campo não pode ser vazio"
+        },
+      }
+    },
+    time: {
+    type:  DataTypes.TIME,
+    allowNull: false,
+      validate:{
+        notEmpty: {
+          msg: "Campo não pode ser vazio"
+        },
+      }
+    },
+    description: {
+    type: DataTypes.STRING,
+    allowNull: false,
+      validate:{
+        max: 100,
+        notEmpty: {
+          msg: "Campo não pode ser vazio"
+        },
+      }
+    },
   }, {
     sequelize,
     modelName: 'Cita',
