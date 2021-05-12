@@ -1,9 +1,9 @@
 const express = require('express')
-/* const { validationResult } = require('express-validator')
-const { check } = require('express-validator'); */
+/* const { validationResult } = require('express-validator')*/
 const bodyParser = require('body-Parser')
 const app = express()
-// const cors = require('cors')
+const cors = require('cors')
+
 const { Sequelize, DataTypes, Error } = require('sequelize')
 const CitaModel = require('./models/cita')
 
@@ -14,11 +14,12 @@ const sequelize = new Sequelize ({ dialect: 'sqlite', storage: 'cita-database.db
 
 const Citas = CitaModel(sequelize, DataTypes)
 
-
-
-// falta llamar a depemdencia CORS
+//depemdencia CORS
 
 app.use(express.json());
+
+//depemdencia CORS
+app.use(cors());
 
 
 // Mostrar lista de citas
