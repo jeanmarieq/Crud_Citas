@@ -3,11 +3,14 @@ const express = require('express')
 const bodyParser = require('body-Parser')
 const app = express()
 const cors = require('cors')
+<<<<<<< HEAD
 
+=======
+>>>>>>> cf02580e6240c99cae44ecb8802d7a247f92b49c
 const { Sequelize, DataTypes, Error } = require('sequelize')
 const CitaModel = require('./models/cita')
 
-
+app.use(cors())
 app.set('view engine', 'ejs')
 
 const sequelize = new Sequelize ({ dialect: 'sqlite', storage: 'cita-database.db' })
@@ -50,6 +53,12 @@ app.get('/citas/:id', async (req, res) => {
 app.post('/citas', async (req, res) => {
     try {
         const { Name, date, time, description } = req.body;
+        Citas.findAll({
+            where: {
+                date: req.body.date,
+                time: req.body.time
+            }
+        })
         const novacita = await Citas.create ({
             Name: req.body.Name,
             date: req.body.date,
