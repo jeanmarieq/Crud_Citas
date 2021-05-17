@@ -3,10 +3,6 @@ const express = require('express')
 const bodyParser = require('body-Parser')
 const app = express()
 const cors = require('cors')
-<<<<<<< HEAD
-
-=======
->>>>>>> cf02580e6240c99cae44ecb8802d7a247f92b49c
 const { Sequelize, DataTypes, Error } = require('sequelize')
 const CitaModel = require('./models/cita')
 
