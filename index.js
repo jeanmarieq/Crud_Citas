@@ -29,10 +29,20 @@ app.get('/citas', async (req, res) => {
 
 // Mostrar Cita por ID
 app.get('/citas/:id', async (req, res) => {
-    const citaId = req.params.id
-    const cita = await Citas.findByPk(citaId)
-
-    res.json({ action: 'Mostrar Cita', Citas: cita})
+    try{
+        const citaId = req.params.id
+        const cita = await Citas.findByPk(citaId)
+        cita.get({
+            Name: req.body.Name,
+            date: req.body.date,
+            time: req.body.time,
+            description: req.body.description
+        });
+        return res.status(200).send(cita)
+    }catch(err) {
+        return res.status(400).send({ error: err});
+   
+    } // res.json({Citas: cita})
 })
 
 // Criar Cita FUNCIONA
