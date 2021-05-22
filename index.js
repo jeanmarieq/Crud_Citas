@@ -6,6 +6,7 @@ const cors = require('cors')
 const { Sequelize, DataTypes, Error } = require('sequelize')
 const CitaModel = require('./models/cita')
 
+
 app.use(cors())
 app.set('view engine', 'ejs')
 
@@ -59,12 +60,18 @@ app.get('/citas/:id', async (req, res) => {
 app.post('/citas', async (req, res) => {
     try {
         const { Name, date, time, description } = req.body;
-        Citas.findAll({
+        const FECHA = await Citas.findOne({
             where: {
                 date: req.body.date,
                 time: req.body.time
             }
-        })
+        });
+        if (FECHA !=null) {
+            return res.status(400).send({error: 'já existe uma marcação nesse horario'}) 
+        }
+       console.log(FECHA)
+
+
         const novacita = await Citas.create ({
             Name: req.body.Name,
             date: req.body.date,
@@ -73,6 +80,7 @@ app.post('/citas', async (req, res) => {
         });
         return res.status(200).send(novacita)
     } catch(err) {
+        console.log(err)
         return res.status(400).send({ error: err});
     }   
     
