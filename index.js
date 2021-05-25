@@ -14,7 +14,6 @@ const sequelize = new Sequelize ({ dialect: 'sqlite', storage: 'cita-database.db
 
 const Citas = CitaModel(sequelize, DataTypes)
 
-//depemdencia CORS
 
 app.use(express.json());
 
@@ -43,20 +42,10 @@ app.get('/citas/:id', async (req, res) => {
     }catch(err) {
         return res.status(400).send({ error: err});
    
-    } // res.json({Citas: cita})
+    } 
 })
 
 // Criar Cita FUNCIONA
-/* app.post('/citas', async (req, res) => {
-       const novacita = await Citas.create ({
-        Name: req.body.Name,
-        date: req.body.date,
-        time: req.body.time,
-        description: req.body.description
-    })
-   res.json({ novacita });
-})   */
-// teste Con envio do error 
 app.post('/citas', async (req, res) => {
     try {
         const { Name, date, time, description } = req.body;
@@ -87,31 +76,6 @@ app.post('/citas', async (req, res) => {
  //  res.json({ novacita });
 })  
 
-// prueba con validacion NO FUNCIONA
-/* app.post('/citas', [
-    check('Name').isAlpha({min:3}),
-    // body('date').isDate(),
-    check('description').isAlphanumeric({max:20}),
-], async (req, res) => {
-        const errors = validationResult(req);
-
-        if(!errors.isEmpty()) {
-            return res.status(400).send({ mesage: errors})
-        } 
-
-        try {
-            const novacita = await Citas.create({
-                Name: req.body.Name,
-                date: req.body.date,
-                time: req.body.time,
-                description: req.body.description,
-            });
-            return res.status(201).send({message:'Cita cadastrada'});
-        } catch(e) {
-            return res.status(500).send({mesage:'falha ao cadastrar cita'});
-        }
-    res.send({ novacita });
-})  */
 
 // Atualizar cita 
 app.put('/citas/:id', async (req, res) => {
@@ -128,7 +92,7 @@ app.put('/citas/:id', async (req, res) => {
     } catch(err) {
         return res.status(400).send({ error: err});
     }   
-    // res.send({ lisCitas: lisCitas })
+    
 }) 
   
 // Apagar Cita
